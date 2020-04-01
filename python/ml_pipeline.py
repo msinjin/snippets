@@ -1,8 +1,10 @@
 """
+General pipeline approach to training models with a grid search and multiple estimators.
+
 R environment setup:
     library(tidyverse)
     library(reticulate)
-    use_condaenv('crc')
+    use_condaenv('<env_name>')
 """
 
 import pickle
@@ -27,7 +29,7 @@ from sklearn.ensemble import AdaBoostRegressor
 from sklearn.svm import SVR
 
 # Get data, prep:
-# df = somedata
+df = <somedata>
 
 X = df[['predictor_var1', 'predictor_var2', 
         'categorical_var1', 'categorical_var2']]
@@ -94,13 +96,13 @@ for grid in param_grid:
 
 
 # Dump all models, grids
-with open('../ml_output/models.pickle', 'wb') as f:
-    pickle.dump(models, f)
+with open('../ml_output/estimator_search.pickle', 'wb') as f:
+    pickle.dump(estimator_search, f)
 
 # Diagnostics: 
 
-# with open('../ml_output/models.pickle', 'rb') as f:
-#     models = pickle.load(f)
+# with open('../ml_output/estimator_search.pickle', 'rb') as f:
+#     estimator_search = pickle.load(f)
 
 # Plot Actuals vs Predicteds
 preds_dum = estimator_search['DUM'].best_estimator_.predict(X)
